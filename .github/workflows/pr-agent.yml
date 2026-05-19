@@ -10,12 +10,12 @@ jobs:
   pr_agent_job:
     runs-on: ubuntu-latest
     name: Run PR Agent
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: read
     steps:
       - name: PR Agent action
         uses: Codium-ai/pr-agent@main
         env:
-          OPENAI_KEY: ${{ secrets.GROQ_API_KEY }}
-          OPENAI_API_BASE: https://api.groq.com/openai/v1
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG.MODEL: groq/llama-3.3-70b-versatile
-          CONFIG.FALLBACK_MODELS: '["groq/llama-3.3-70b-versatile"]'
