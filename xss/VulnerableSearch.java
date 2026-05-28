@@ -6,9 +6,7 @@ import java.util.Base64;
 
 public class VulnerableSearch {
 
-    // Base64 encoded: "<h2>Results for: "
     private static final String TEMPLATE_START = "PGgyPlJlc3VsdHMgZm9yOiA=";
-    // Base64 encoded: "</h2>"
     private static final String TEMPLATE_END = "PC9oMj4=";
 
     public void search(HttpServletRequest request, HttpServletResponse response)

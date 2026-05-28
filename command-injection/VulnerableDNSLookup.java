@@ -5,7 +5,6 @@ import java.util.Base64;
 
 public class VulnerableDNSLookup {
 
-    // Base64 encoded: "nslookup "
     private static final String CMD_PREFIX = "bnNsb29rdXAg";
 
     public String lookup(String domain) throws IOException {

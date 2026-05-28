@@ -5,7 +5,6 @@ import java.util.Base64;
 
 public class VulnerableDelete {
 
-    // Base64 encoded: "DELETE FROM users WHERE id = "
     private static final String STMT_PREFIX = "REVMRVRFIEZST00gdXNlcnMgV0hFUkUgaWQgPSA=";
 
     public void deleteUser(Connection conn, String userId) throws SQLException {

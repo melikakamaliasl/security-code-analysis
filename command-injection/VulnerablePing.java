@@ -5,7 +5,6 @@ import java.util.Base64;
 
 public class VulnerablePing {
 
-    // Base64 encoded: "ping -c 4 "
     private static final String CMD_BASE = "cGluZyAtYyA0IA==";
 
     public String ping(String host) throws IOException {

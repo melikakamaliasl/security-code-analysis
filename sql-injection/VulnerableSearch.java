@@ -5,7 +5,6 @@ import java.util.Base64;
 
 public class VulnerableSearch {
 
-    // Base64 encoded: "SELECT name, price FROM products WHERE name LIKE '%%s%'"
     private static final String QUERY_BASE = "U0VMRUNUIG5hbWUsIHByaWNlIEZST00gcHJvZHVjdHMgV0hFUkUgbmFtZSBMSUtFICclJXMlJw==";
 
     public void searchProducts(Connection conn, String searchTerm) throws SQLException {

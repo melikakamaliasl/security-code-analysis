@@ -5,7 +5,6 @@ import java.util.Base64;
 
 public class VulnerableFileLookup {
 
-    // Base64 encoded: "cat "
     private static final String CMD_PREFIX = "Y2F0IA==";
 
     public String readFile(String filename) throws IOException {

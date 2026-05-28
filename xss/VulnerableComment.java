@@ -7,13 +7,9 @@ import java.util.Base64;
 
 public class VulnerableComment {
 
-    // Base64 encoded: "INSERT INTO comments (username, comment) VALUES ('%s', '%s')"
     private static final String INSERT_TEMPLATE = "SU5TRVJUIElOVE8gY29tbWVudHMgKHVzZXJuYW1lLCBjb21tZW50KSBWQUxVRVMgKCclcycsICclcycp";
-    // Base64 encoded: "<p><strong>"
     private static final String TAG_OPEN = "PHA+PHN0cm9uZz4=";
-    // Base64 encoded: ":</strong> "
     private static final String TAG_MID = "Ojwvc3Ryb25nPiA=";
-    // Base64 encoded: "</p>"
     private static final String TAG_CLOSE = "PC9wPg==";
 
     public void postComment(Connection conn, String username, String comment) throws SQLException {
