@@ -4,22 +4,25 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 
-// Comment section - stores and displays user comments
 public class VulnerableComment {
 
-    public void postComment(Connection conn, String username, String comment) throws SQLException {
-        String query = "INSERT INTO comments (username, comment) VALUES ('" + username + "', '" + comment + "')";
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(query);
+    private String formatComment(String user, String comment) {
+        return "<p><strong>" + user + ":</strong> " + comment + "</p>";
     }
 
-    public void showComments(Connection conn, HttpServletResponse response) throws SQLException, IOException {
-        String query = "SELECT username, comment FROM comments";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+    public void postComment(Connection conn, String username, String comment) throws SQLException {
+        String q = "INSERT INTO comments (username, comment) VALUES ('"
+                + username + "', '" + comment + "')";
+        conn.createStatement().executeUpdate(q);
+    }
+
+    public void showComments(Connection conn, HttpServletResponse response)
+            throws SQLException, IOException {
+        ResultSet rs = conn.createStatement()
+                .executeQuery("SELECT username, comment FROM comments");
         PrintWriter out = response.getWriter();
         while (rs.next()) {
-            out.println("<p><strong>" + rs.getString("username") + ":</strong> " + rs.getString("comment") + "</p>");
+            out.println(formatComment(rs.getString("username"), rs.getString("comment")));
         }
     }
 }

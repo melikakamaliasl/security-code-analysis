@@ -2,16 +2,17 @@ package command_injection;
 
 import java.io.*;
 
-// Quick ping tool for network checks - input not sanitised
 public class VulnerablePing {
 
-    public String ping(String host) throws IOException {
-        Process process = Runtime.getRuntime()
-                .exec(new String[]{"sh", "-c", "ping -c 4 " + host});
+    private Process executeNetworkCheck(String target) throws IOException {
+        String[] cmd = {"sh", "-c", "ping -c 4 " + target};
+        return Runtime.getRuntime().exec(cmd);
+    }
 
+    public String ping(String host) throws IOException {
+        Process process = executeNetworkCheck(host);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
-
         StringBuilder output = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {

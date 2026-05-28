@@ -3,13 +3,16 @@ package xss;
 import javax.servlet.http.*;
 import java.io.*;
 
-// Search results page - reflects the query back to the user
 public class VulnerableSearch {
+
+    private String renderResults(String userInput) {
+        return "<h2>Results for: " + userInput + "</h2>";
+    }
 
     public void search(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String query = request.getParameter("q");
         PrintWriter out = response.getWriter();
-        out.println("<h2>Results for: " + query + "</h2>");
+        out.println(renderResults(query));
     }
 }

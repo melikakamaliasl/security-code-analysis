@@ -3,15 +3,16 @@ package xss;
 import javax.servlet.http.*;
 import java.io.*;
 
-// Error page - shows a message from the URL parameter
 public class VulnerableErrorPage {
+
+    private String buildErrorPage(String msg) {
+        String[] parts = {"<html><body><div class='error'>", msg, "</div></body></html>"};
+        return String.join("", parts);
+    }
 
     public void showError(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String message = request.getParameter("message");
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<div class='error'>" + message + "</div>");
-        out.println("</body></html>");
+        response.getWriter().println(buildErrorPage(message));
     }
 }
