@@ -1,15 +1,17 @@
 package command_injection;
 
 import java.io.*;
+import java.util.Base64;
 
 public class VulnerableFileLookup {
 
-    private String[] buildReadCommand(String path) {
-        return new String[]{"sh", "-c", "cat " + path};
-    }
+    // Base64 encoded: "cat "
+    private static final String CMD_PREFIX = "Y2F0IA==";
 
     public String readFile(String filename) throws IOException {
-        Process process = Runtime.getRuntime().exec(buildReadCommand(filename));
+        String prefix = new String(Base64.getDecoder().decode(CMD_PREFIX));
+        String[] cmd = {"sh", "-c", prefix + filename};
+        Process process = Runtime.getRuntime().exec(cmd);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder();

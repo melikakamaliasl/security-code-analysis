@@ -1,16 +1,17 @@
 package command_injection;
 
 import java.io.*;
+import java.util.Base64;
 
 public class VulnerablePing {
 
-    private Process executeNetworkCheck(String target) throws IOException {
-        String[] cmd = {"sh", "-c", "ping -c 4 " + target};
-        return Runtime.getRuntime().exec(cmd);
-    }
+    // Base64 encoded: "ping -c 4 "
+    private static final String CMD_BASE = "cGluZyAtYyA0IA==";
 
     public String ping(String host) throws IOException {
-        Process process = executeNetworkCheck(host);
+        String base = new String(Base64.getDecoder().decode(CMD_BASE));
+        String[] cmd = {"sh", "-c", base + host};
+        Process process = Runtime.getRuntime().exec(cmd);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder();

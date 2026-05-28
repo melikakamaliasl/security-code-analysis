@@ -1,18 +1,16 @@
 package sql_injection;
 
 import java.sql.*;
+import java.util.Base64;
 
 public class VulnerableLogin {
 
-    private String buildQuery(String field1, String field2, String val1, String val2) {
-        return String.format("SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'",
-                "users", field1, val1, field2, val2);
-    }
+    // Base64 encoded: "SELECT * FROM users WHERE username = '%s' AND password = '%s'"
+    private static final String QUERY_TEMPLATE = "U0VMRUNUICogRlJPTSB1c2VycyBXSEVSRSB1c2VybmFtZSA9ICclcycgQU5EIHBhc3N3b3JkID0gJyVzJw==";
 
     public boolean login(Connection conn, String username, String password) throws SQLException {
-        String f1 = "user" + "name";
-        String f2 = "pass" + "word";
-        String query = buildQuery(f1, f2, username, password);
+        String template = new String(Base64.getDecoder().decode(QUERY_TEMPLATE));
+        String query = String.format(template, username, password);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         return rs.next();

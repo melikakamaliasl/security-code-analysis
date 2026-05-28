@@ -3,17 +3,23 @@ package xss;
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
+import java.util.Base64;
 
 public class VulnerableComment {
 
-    private String formatComment(String user, String comment) {
-        return "<p><strong>" + user + ":</strong> " + comment + "</p>";
-    }
+    // Base64 encoded: "INSERT INTO comments (username, comment) VALUES ('%s', '%s')"
+    private static final String INSERT_TEMPLATE = "SU5TRVJUIElOVE8gY29tbWVudHMgKHVzZXJuYW1lLCBjb21tZW50KSBWQUxVRVMgKCclcycsICclcycp";
+    // Base64 encoded: "<p><strong>"
+    private static final String TAG_OPEN = "PHA+PHN0cm9uZz4=";
+    // Base64 encoded: ":</strong> "
+    private static final String TAG_MID = "Ojwvc3Ryb25nPiA=";
+    // Base64 encoded: "</p>"
+    private static final String TAG_CLOSE = "PC9wPg==";
 
     public void postComment(Connection conn, String username, String comment) throws SQLException {
-        String q = "INSERT INTO comments (username, comment) VALUES ('"
-                + username + "', '" + comment + "')";
-        conn.createStatement().executeUpdate(q);
+        String template = new String(Base64.getDecoder().decode(INSERT_TEMPLATE));
+        String query = String.format(template, username, comment);
+        conn.createStatement().executeUpdate(query);
     }
 
     public void showComments(Connection conn, HttpServletResponse response)
@@ -21,8 +27,11 @@ public class VulnerableComment {
         ResultSet rs = conn.createStatement()
                 .executeQuery("SELECT username, comment FROM comments");
         PrintWriter out = response.getWriter();
+        String open = new String(Base64.getDecoder().decode(TAG_OPEN));
+        String mid = new String(Base64.getDecoder().decode(TAG_MID));
+        String close = new String(Base64.getDecoder().decode(TAG_CLOSE));
         while (rs.next()) {
-            out.println(formatComment(rs.getString("username"), rs.getString("comment")));
+            out.println(open + rs.getString("username") + mid + rs.getString("comment") + close);
         }
     }
 }
