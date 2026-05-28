@@ -1,16 +1,23 @@
 package command_injection;
 
 import java.io.*;
-import java.util.Base64;
+import java.util.Properties;
 
 public class VulnerableFileLookup {
 
-    private static final String CMD_PREFIX = "Y2F0IA==";
+    private static final Properties props = new Properties();
+
+    static {
+        try (InputStream is = new FileInputStream("queries.properties")) {
+            props.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String readFile(String filename) throws IOException {
-        String prefix = new String(Base64.getDecoder().decode(CMD_PREFIX));
-        String[] cmd = {"sh", "-c", prefix + filename};
-        Process process = Runtime.getRuntime().exec(cmd);
+        String cmd = props.getProperty("cat.cmd") + filename;
+        Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder();

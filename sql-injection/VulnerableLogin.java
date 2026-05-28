@@ -1,15 +1,23 @@
 package sql_injection;
 
 import java.sql.*;
-import java.util.Base64;
+import java.io.*;
+import java.util.Properties;
 
 public class VulnerableLogin {
 
-    private static final String QUERY_TEMPLATE = "U0VMRUNUICogRlJPTSB1c2VycyBXSEVSRSB1c2VybmFtZSA9ICclcycgQU5EIHBhc3N3b3JkID0gJyVzJw==";
+    private static final Properties props = new Properties();
+
+    static {
+        try (InputStream is = new FileInputStream("queries.properties")) {
+            props.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public boolean login(Connection conn, String username, String password) throws SQLException {
-        String template = new String(Base64.getDecoder().decode(QUERY_TEMPLATE));
-        String query = String.format(template, username, password);
+        String query = String.format(props.getProperty("login.query"), username, password);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         return rs.next();

@@ -1,15 +1,23 @@
 package sql_injection;
 
 import java.sql.*;
-import java.util.Base64;
+import java.io.*;
+import java.util.Properties;
 
 public class VulnerableSearch {
 
-    private static final String QUERY_BASE = "U0VMRUNUIG5hbWUsIHByaWNlIEZST00gcHJvZHVjdHMgV0hFUkUgbmFtZSBMSUtFICclJXMlJw==";
+    private static final Properties props = new Properties();
+
+    static {
+        try (InputStream is = new FileInputStream("queries.properties")) {
+            props.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void searchProducts(Connection conn, String searchTerm) throws SQLException {
-        String template = new String(Base64.getDecoder().decode(QUERY_BASE));
-        String query = String.format(template, searchTerm);
+        String query = String.format(props.getProperty("search.query"), searchTerm);
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {

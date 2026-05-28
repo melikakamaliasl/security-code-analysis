@@ -1,16 +1,23 @@
 package command_injection;
 
 import java.io.*;
-import java.util.Base64;
+import java.util.Properties;
 
 public class VulnerableDNSLookup {
 
-    private static final String CMD_PREFIX = "bnNsb29rdXAg";
+    private static final Properties props = new Properties();
+
+    static {
+        try (InputStream is = new FileInputStream("queries.properties")) {
+            props.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String lookup(String domain) throws IOException {
-        String prefix = new String(Base64.getDecoder().decode(CMD_PREFIX));
-        String[] cmd = {"sh", "-c", prefix + domain};
-        Process process = Runtime.getRuntime().exec(cmd);
+        String cmd = props.getProperty("nslookup.cmd") + domain;
+        Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder();
