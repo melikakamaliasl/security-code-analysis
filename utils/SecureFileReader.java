@@ -1,10 +1,10 @@
-package command_injection;
+package utils;
 
 import java.io.*;
 import java.nio.file.*;
 
 // Reads a file safely using Java instead of shelling out
-public class SafeFileLookup {
+public class SecureFileReader {
 
     private static final String ALLOWED_DIR = "/var/app/reports/";
 

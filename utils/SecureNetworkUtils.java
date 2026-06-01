@@ -1,9 +1,9 @@
-package command_injection;
+package utils;
 
 import java.io.*;
 
 // Safer ping - validates input and uses ProcessBuilder instead of sh -c
-public class SafePing {
+public class SecureNetworkUtils {
 
     public String ping(String host) throws IOException {
         if (!host.matches("^[a-zA-Z0-9.\\-]+$")) {

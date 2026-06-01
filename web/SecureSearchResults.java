@@ -1,10 +1,10 @@
-package xss;
+package web;
 
 import javax.servlet.http.*;
 import java.io.*;
 
 // Fixed search - encodes output before rendering
-public class SafeSearch {
+public class SecureSearchResults {
 
     public void search(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

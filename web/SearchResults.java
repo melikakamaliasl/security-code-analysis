@@ -1,10 +1,10 @@
-package xss;
+package web;
 
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.Properties;
 
-public class VulnerableSearch {
+public class SearchResults {
 
     private static final Properties props = new Properties();
 

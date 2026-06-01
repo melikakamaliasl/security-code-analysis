@@ -1,11 +1,11 @@
-package xss;
+package web;
 
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 
 // Fixed comment section - encodes before displaying
-public class SafeComment {
+public class SecureCommentSection {
 
     public void postComment(Connection conn, String username, String comment) throws SQLException {
         String query = "INSERT INTO comments (username, comment) VALUES (?, ?)";

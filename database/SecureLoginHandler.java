@@ -1,9 +1,9 @@
-package sql_injection;
+package database;
 
 import java.sql.*;
 
 // Fixed version of login using prepared statements
-public class SafeLogin {
+public class SecureLoginHandler {
 
     public boolean login(Connection conn, String username, String password) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";

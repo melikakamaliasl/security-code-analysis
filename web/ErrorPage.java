@@ -1,10 +1,10 @@
-package xss;
+package web;
 
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.Properties;
 
-public class VulnerableErrorPage {
+public class ErrorPage {
 
     private static final Properties props = new Properties();
 

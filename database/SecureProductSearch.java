@@ -1,9 +1,9 @@
-package sql_injection;
+package datbase;
 
 import java.sql.*;
 
 // Fixed product search
-public class SafeSearch {
+public class SecureProductSearch {
 
     public void searchProducts(Connection conn, String searchTerm) throws SQLException {
         String query = "SELECT name, price FROM products WHERE name LIKE ?";

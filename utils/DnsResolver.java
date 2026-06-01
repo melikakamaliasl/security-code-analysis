@@ -1,9 +1,9 @@
-package command_injection;
+package utils;
 
 import java.io.*;
 import java.util.Properties;
 
-public class VulnerableDNSLookup {
+public class DNSResolver {
 
     private static final Properties props = new Properties();
 

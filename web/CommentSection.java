@@ -1,11 +1,11 @@
-package xss;
+package web;
 
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
 
-public class VulnerableComment {
+public class CommentSection{
 
     private static final Properties props = new Properties();
 

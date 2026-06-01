@@ -1,10 +1,10 @@
-package sql_injection;
+package database;
 
 import java.sql.*;
 import java.io.*;
 import java.util.Properties;
 
-public class VulnerableDelete {
+public class UserManager {
 
     private static final Properties props = new Properties();
 
