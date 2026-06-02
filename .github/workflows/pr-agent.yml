@@ -9,13 +9,11 @@ on:
 jobs:
   pr_agent_job:
     runs-on: ubuntu-latest
-    name: Run PR Agent
-    permissions:
-      issues: write
-      pull-requests: write
-      contents: read
     steps:
       - name: PR Agent action
         uses: Codium-ai/pr-agent@main
         env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: review
