@@ -1,0 +1,3 @@
+[config]
+model = "groq/llama-3.3-70b-versatile"
+fallback_models = ["groq/llama-3.3-70b-versatile"]
